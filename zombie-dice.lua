@@ -7,9 +7,17 @@
     - b: brains
 --]]
 
-local gDie = 'ffsbbb'
-local yDie = 'ffssbb'
-local rDie = 'ffsssb'
+local function rollDie(die)
+    return die[math.random(#die)]
+end
+
+local gDie = { 'f', 'f', 's', 'b', 'b', 'b' }
+local yDie = { 'f', 'f', 's', 's', 'b', 'b' }
+local rDie = { 'f', 'f', 's', 's', 's', 'b' }
+
+function gDie.roll() return rollDie(gDie) end
+function yDie.roll() return rollDie(gDie) end
+function rDie.roll() return rollDie(gDie) end
 
 local dice = { 
     gDie, gDie, gDie, gDie, gDie, gDie, -- 6
@@ -19,11 +27,6 @@ local dice = {
 
 print("Welcome to Zombie Dice")
 print("   http://www.sjgames.com/dice/zombiedice/")
-
-
-
-function rollDice()
-end
 
 local function GameState(playerA, playerB)
     local self = {}
@@ -66,12 +69,22 @@ end
 local function HumanPlayer(name)
     local self = Player(name)
 
+    function self.rollAgain()
+        -- prompt user if they want to roll again
+        return false
+    end
+
     return self
 end
 
 local function CompuPlayer(name)
     local self = Player(name)
-    
+
+    function self.rollAgain()
+        -- compute if we should roll again
+        return false
+    end
+
     return self
 end
 
@@ -91,3 +104,9 @@ printGameState(gameState)
 playerB.addBrains(42)
 printGameState(gameState)
 
+print('die: ' .. gDie.roll())
+print('die: ' .. gDie.roll())
+print('die: ' .. gDie.roll())
+print('die: ' .. gDie.roll())
+print('die: ' .. gDie.roll())
+print('die: ' .. gDie.roll())
